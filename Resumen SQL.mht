@@ -1,0 +1,374 @@
+From: <Guardado por Microsoft Internet Explorer 5>
+Subject: Overview of the Oracle7 Server, SQL, and PL/SQL
+Date: Mon, 21 May 2007 11:43:56 -0300
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file://C:\Personal\Carpeta%20Personal\tmp\poli\Base%20de%20datos%202007\ooooooooo\resumen\Overview%20of%20the%20Oracle7%20Server,%20SQL,%20and%20PL-SQL.htm
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2800.1106
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from =
+url=3D(0045)http://trapiche/manuales/resumen/ap1serv2.htm =
+--><HTML><HEAD><TITLE>Overview of the Oracle7 Server, SQL, and =
+PL/SQL</TITLE>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dwindows-1252">
+<META content=3D"MSHTML 6.00.2800.1106" name=3DGENERATOR></HEAD>
+<BODY vLink=3D#bb0000 bgColor=3D#ffffff>
+<H1><A name=3D79992>SQL </A></H1>
+<HR SIZE=3D5>
+<A name=3D80000>
+<P>SQL (Structured Query Language) is the language you use to issue =
+instructions=20
+to the </A><EM>Oracle&nbsp; Server</EM>. It is, in fact, the standard =
+language=20
+used by all major relational database vendors, and Oracle complies at =
+Entry=20
+Level with SQL92, the most recent ISO (International Standards =
+Organization)=20
+standard. There are several aspects of SQL that may differ from computer =
+
+languages that you are familiar with, such as the following:=20
+<UL type=3Ddisc><A name=3D81486>
+  <LI>SQL is non-procedural. In SQL, you tell the Server what to do but =
+not how=20
+  it is to be done. This frees you from dealing with a lot of detail. =
+</A><A=20
+  name=3D81490>
+  <LI>SQL statements are independent of one another. Although=20
+  </A><EM>PL/SQL</EM> addresses this, SQL itself has no conditional or =
+other=20
+  control-flow statements. <A name=3D80006>
+  <LI>SQL employs set-at-a-time operation. It operates on arbitrarily =
+large sets=20
+  of data in a single step. </A><A name=3D80008>
+  <LI>SQL uses </A><EM>Nulls and Three-Valued Logic</EM>. In most =
+languages,=20
+  Boolean expressions are either TRUE or FALSE. In SQL, they are TRUE, =
+FALSE, or=20
+  NULL. This will be explained shortly. </LI></UL>
+<HR>
+
+<H2><A name=3D80010>Retrieving Data </A></H2><A name=3D80018>
+<P>Suppose you wanted to pull from the Customers table the information =
+on=20
+customers named "Peel". This is called making a <EM>query</EM>. To do =
+it, you=20
+could issue the following statement:</P></A><A name=3D80020><PRE>SELECT =
+*
+     FROM Customers
+     WHERE LNAME =3D 'Peel';</PRE>
+<P></A><A name=3D80022>This produces the following:</P></A><A =
+name=3D80024><PRE><B>CNUM      FNAME            LNAME     ADDRESS
+</B></A><A name=3D84235>4005      Julia            Peel      197 Myrtle =
+Court, Brisbane, CA
+</A><A name=3D80024></PRE></A><A name=3D84235>
+<P></A><A name=3D80026>Oracle interprets the statement as follows: Any =
+number of=20
+spaces and/or line breaks are equivalent to one space or line break. =
+These are=20
+delimiters, and the extra spaces and line breaks are for readability: =
+all are=20
+equivalent "white space". Likewise, case is not significant, except in =
+literals=20
+like the string you are searching for ('Peel'). </P>
+<P></A><A name=3D80028>SELECT is a keyword telling the database that =
+this is a=20
+query. All SQL statements begin with keywords. The asterisk means to =
+retrieve=20
+all columns; alternatively, you could have listed the desired columns by =
+name,=20
+separated by commas. The FROM Customers clause identifies the table from =
+which=20
+you want to draw the data. </P>
+<P></A><A name=3D80034>WHERE LNAME =3D `Peel' is a predicate. When a SQL =
+statement=20
+contains a predicate, Oracle tests the predicate against each row of the =
+table=20
+and performs the action (in this case, SELECT) on all rows that make the =
+
+predicate TRUE. This is an example of set-at-a-time operation. The =
+predicate is=20
+optional, but in its absence the operation is performed on the entire =
+table, so=20
+that, in this case, the entire table would have been retrieved. The =
+semi-colon=20
+is the statement terminator.</P></A>
+<HR>
+
+<H3><A name=3D80036>Nulls and Three-Valued Logic </A></H3><A =
+name=3D80054>
+<P>With predicates, you should be aware of three-valued logic. In SQL, =
+the basic=20
+Boolean values of TRUE and FALSE are supplemented with another: NULL, =
+also=20
+called UNKNOWN. This is because SQL acknowledges that data can be =
+incomplete or=20
+inapplicable and that the truth value of a predicate may therefore not =
+be=20
+knowable. Specifically, a column can contain a <EM>null</EM>, which =
+means that=20
+there is no known applicable value. A comparison between two values =
+using=20
+relational operators--for example, a =3D 5--normally is either TRUE or =
+FALSE.=20
+Whenever nulls are compared to other values, however, including other =
+nulls, the=20
+Boolean value is neither TRUE nor FALSE but itself NULL. </P>
+<P></A><A name=3D83194>In most respects, NULL has the same effect as =
+FALSE. The=20
+major exception is that, while NOT FALSE =3D TRUE, NOT NULL =3D NULL. In =
+other=20
+words, if you know that an expression is FALSE, and you negate (take the =
+
+opposite of) it, then you know that it is TRUE. If you do not know =
+whether it is=20
+TRUE or FALSE, and you negate it, you still do not know. In certain =
+cases,=20
+three-valued logic can create problems with your programming logic if =
+you have=20
+not accounted for it. </P></A>
+<HR>
+
+<H2><A name=3D80058>Creating Tables </A></H2><A name=3D80066>
+<P>This is how you create tables in SQL. You can use the following SQL =
+statement=20
+to create the Customers table:</P></A><A name=3D80068><PRE>CREATE TABLE =
+Customers
+(<EM>cnum</EM>          integer NOT NULL PRIMARY KEY,    =20
+FNAME          char(15) NOT NULL,
+LNAME          char(15) NOT NULL,
+ADDRESS         varchar2 );</PRE>
+<P></A><A name=3D80072>After the keywords CREATE TABLE come the table's =
+name and a=20
+parenthesized list of its columns with a definition of each. Integer, =
+char, and=20
+varchar2 are datatypes: all of the data in a given column is always of =
+the same=20
+type (char means a fixed and varchar2 a varying length string).</P></A>
+<P><A name=3D80084>NOT NULL and PRIMARY KEY are constraints on the =
+columns they=20
+follow. They restrict the values you can enter in those columns. =
+Specifically,=20
+NOT NULL forbids you from entering nulls in the column. PRIMARY KEY =
+prevents you=20
+from entering duplicate values into the column and makes the column =
+eligible to=20
+be the parent for some foreign key. </A></P>
+<HR>
+
+<H3><A name=3D80088>Ownership and Naming Conventions </A></H3><A =
+name=3D80104>
+<P>Note that when you create a table in SQL, you own it. This means you=20
+generally have control over who has access to it, and that it is part of =
+a=20
+schema that bears your Oracle username. A <EM>schema</EM> is a named =
+collection=20
+of database objects under the control of a single Oracle user. Schemas =
+inherit=20
+the names of their owners. When other users refer to an object you have =
+created,=20
+they have to precede its name by the schema name followed by a dot (no =
+spaces).=20
+SQL utilizes a hierarchical naming convention with the levels of the =
+hierarchy=20
+separated by dots. In fact, you sometimes have to precede column names =
+by table=20
+names to avoid ambiguity, in which case you also use a dot. The =
+following is an=20
+example in the form <EM>schemaname.tablename.columnname:</EM></P></A><A=20
+name=3D80106><PRE>scott.Customers.LNAME</PRE>
+<P></A><A name=3D80118>You can simplify references like this by using=20
+<EM>synonyms,</EM> which are aliases for tables or other database =
+objects.=20
+Synonyms can be <EM>private</EM>, meaning that they are part of your =
+schema and=20
+you control their usage, or <EM>public</EM>, meaning that all users can =
+access=20
+them. For example, you can create a synonym "Cust" for scott.Customers =
+as=20
+follows:</P></A><A name=3D80120><PRE>CREATE SYNONYM Cust FOR =
+scott.Customers;</PRE>
+<P></A><A name=3D80122>This would be a private synonym, which is the =
+default. Now=20
+you could rewrite the example above like this:</P></A><A =
+name=3D80124><PRE>Cust.LNAME</PRE>
+<P></A><A name=3D80126>You still have to refer to the column directly. =
+Synonyms=20
+can only be for tables, not table components like columns.</P></A>
+<HR>
+
+<H2><A name=3D80130>Inserting and Manipulating the Data </A></H2><A =
+name=3D80134>
+<P>Which SQL statements determine the actual data content? Chiefly, =
+three --the=20
+</A><A =
+href=3D"http://trapiche/manuales/resumen/ap1serv2.htm#80136">INSERT</A>=20
+statement, the <A=20
+href=3D"http://trapiche/manuales/resumen/ap1serv2.htm#80146">UPDATE</A> =
+statement,=20
+and the<A href=3D"http://trapiche/manuales/resumen/ap1serv2.htm#80158"> =
+DELETE</A>=20
+statement. INSERT places rows in a table, UPDATE changes the values they =
+
+contain, and DELETE removes them. </P>
+<HR>
+
+<H3><A name=3D80136>The INSERT Statement </A></H3><A name=3D80140>
+<P>For INSERT, you simply identify the table and its columns and list =
+the=20
+values, as follows:</P></A><A name=3D80142><PRE>INSERT INTO Customers =
+(<EM>cnum</EM>, FNAME, LNAME)
+     VALUES (2004, 'Harry', 'Brighton');</PRE>
+<P></A><A name=3D80144>This statement inserts a row with a value for =
+every column=20
+but ADDRESS. Since you did not, in your CREATE TABLE statement, place a =
+NOT NULL=20
+constraint on the ADDRESS column, and since you did not give that column =
+a value=20
+here, Oracle sets this column to <EM>null</EM>. If you are inserting a =
+value=20
+into every column of the table, and you have the values ordered as the =
+columns=20
+are in the table, you can omit the column list. You optionally can put a =
+SELECT=20
+statement in place of the VALUES clause of the INSERT statement to =
+retrieve data=20
+from elsewhere in the database and duplicate it here. </P></A>
+<HR>
+
+<H3><A name=3D80146>The UPDATE Statement </A></H3><A name=3D80152>
+<P>UPDATE is similar to SELECT in that it takes a predicate and operates =
+on all=20
+rows that make the predicate TRUE. For example:</P></A><A =
+name=3D80154><PRE>UPDATE Customers
+     SET ADDRESS =3D null
+     WHERE LNAME =3D 'Subchak';</PRE>
+<P></A><A name=3D80156>This sets to null all addresses for customers =
+named=20
+`Subchak'. The SET clause of an UPDATE command can refer to current =
+column=20
+values. "Current" in this case means the values in the column before any =
+changes=20
+were made by this statement. </P></A>
+<HR>
+
+<H3><A name=3D80158>The DELETE Statement </A></H3><A name=3D80164>
+<P>DELETE is quite similar to UPDATE. The following statement deletes =
+all rows=20
+for customers named `Subchak':</P></A><A name=3D80166><PRE>DELETE FROM =
+Customers
+     WHERE LNAME =3D 'Subchak';</PRE>
+<P></A><A name=3D80168>You can only delete entire rows, not individual =
+values. To=20
+do the latter, use UPDATE to set the values to null. Be careful with =
+DELETE that=20
+you do not omit the predicate; this empties the table. </P></A>
+<HR>
+
+<H2><A name=3D80170>Querying Multiple Tables Through Joins </A></H2><A =
+name=3D80180>
+<P>Even though it only retrieves data, SELECT is the most complex =
+statement in=20
+SQL. One reason for this is that you can use it to query any number of =
+tables in=20
+one statement, correlating the data in various ways. One way to do this =
+is with=20
+a <EM>join</EM>, which is a SELECT statement that correlates data from =
+more than=20
+one table. A join finds every possible combination of rows, such that =
+one row is=20
+taken from each table joined. This means that three tables of ten rows =
+each can=20
+produce a thousand rows of output (10 * 10 * 10) when joined. Typically, =
+you use=20
+the predicate to filter the output in terms of some relationship. The =
+most=20
+common type of join, called a <EM>natural join</EM>, filters the output =
+in terms=20
+of the foreign key/parent key relationship explained earlier in this =
+appendix.=20
+For example, to see the people in the Customers table coupled with their =
+various=20
+phone numbers from the Customers_Phone table, you could enter the=20
+following:</P></A><A name=3D83323><PRE>SELECT a.CNUM, LNAME, FNAME, =
+PHONE, TYPE
+     FROM Customers a, Customer_Phone b
+     WHERE a.CNUM =3D b.CNUM;</PRE>
+<P></A><A name=3D83329>In the above, a and b are <EM>range =
+variable</EM>s, also=20
+calle<EM>d correlation variables</EM>. They are simply alternate names =
+for the=20
+tables whose names they follow in the FROM clause, so that a =3D =
+Customers and b =3D=20
+Customers_Phone. You can see that here you need the range variables to=20
+distinguish Customers.CNUM from Customers_Phone.CNUM in the SELECT and =
+WHERE=20
+clauses. Even when not needed, range variables are often convenient. =
+</P>
+<P></A><A name=3D80196>Here is the output of the natural join:</P></A><A =
+
+name=3D83867><PRE><B>CNUM     LNAME          FNAME     PHONE            =
+TYPE
+</B></PRE></A><A name=3D83964><PRE>4005     Peel           Julia     =
+375-296-8226     home
+4005     Peel           Julia     375-855-3778     beeper
+4008     Lopez          Emilio    488-255-9011     home
+4008     Lopez          Emilio    488-633-8591     work
+4011     Lim            Kerry     577-936-8554     home
+</PRE>
+<P></A><A name=3D84140>This output represents every combination of rows =
+from the=20
+two tables where both rows have the same CNUM value. </P></A>
+<HR>
+
+<H3><A name=3D80202>Outer Joins </A></H3><A name=3D80210>
+<P>Notice in the preceding example that people from the Customers table =
+who did=20
+not have phones (namely, CNUM 4007) were not selected. If a row has no =
+match in=20
+the other table, the predicate is never true for that row. Sometimes, =
+you do not=20
+want this effect, and you can override it by using an <EM>outer =
+join</EM>. An=20
+outer join is a join that includes all of the rows from one of the =
+tables=20
+joined, regardless of whether there were matches in the other table. =
+Such a join=20
+inserts nulls in the output in whichever columns were taken from the =
+table that=20
+failed to provide matches for the outer-joined table. Here is the same =
+query=20
+done as an outer join:</P></A><A name=3D80212><PRE>SELECT a.CNUM, LNAME, =
+FNAME, PHONE, TYPE
+     FROM Customers a, Customer_Phone b
+      WHERE a.CNUM =3D b.CNUM (+);</PRE>
+<P></A><A name=3D80214>This is the output of the above:</P></A><A =
+name=3D80216><PRE><B>CNUM          LNAME          FNAME     PHONE        =
+  TYPE
+</B></PRE></A><A name=3D84232><PRE>4005          Peel           Julia    =
+ 375-296-8226   home
+4005          Peel           Julia     375-855-3778   beeper
+4007          Subchak        Terry     NULL           NULL
+4008          Lopez          Emilio    488-255-9011   home
+4008          Lopez          Emilio    488-633-8591   work
+4011          Lim            Kerry     577-936-8554   home
+</PRE>
+<P></A><A name=3D80218>Notice that the only difference in the query is =
+the=20
+addition of (+) to the WHERE clause. This follows the table for which =
+nulls are=20
+to be inserted. The output from the query, then, includes at least one =
+row for=20
+each row of the table that <EM>did not</EM> have (+) appended in the =
+predicate.=20
+</P>
+<P></A><A name=3D80224>You can also use SELECT statements to produce =
+values for=20
+processing within queries (these are called subqueries), and you can =
+perform=20
+standard set operations (UNION, INTERSECTION) on SELECT statement =
+output.=20
+</P></A></BODY></HTML>
